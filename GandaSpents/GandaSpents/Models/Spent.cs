@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models
 {
-    public class Spent
+    public class Spent : Model
     {
-        public int Id { get; set; }
         public int SpentEntityId { get; set; }
         public SpentEntity SpentEntity { get; set; }
         public int ProductId { get; set; }

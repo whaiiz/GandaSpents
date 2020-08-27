@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GandaSpents.Models
+namespace GandaSpents.Models.Repositories
 {
-    public class ProductType : Model
+    public interface ISpentEntityRepository : IRepository
     {
-        public string Name { get; set; }
     }
 }

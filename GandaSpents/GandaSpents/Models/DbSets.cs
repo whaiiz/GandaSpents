@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models
 {
-    public class ProductType : Model
+    public enum DbSets
     {
-        public string Name { get; set; }
     }
 }
