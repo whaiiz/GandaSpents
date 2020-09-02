@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models
 {
-    public class Model
+    public abstract class Model
     {
         public int Id { get; set; }
     }

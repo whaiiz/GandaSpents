@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using GandaSpents.Models;
 using GandaSpents.Models.Repositories;
 using GandaSpents.Models.Sql;
@@ -29,9 +30,24 @@ namespace GandaSpents
         {
             services.AddControllersWithViews();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            services.AddScoped<ISpentEntityRepository, SpentEntityRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
             );
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ProductType, ProductType>().ForMember(dest => dest.Id, act => act.Ignore());
+                cfg.CreateMap<Spent, Spent>().ForMember(dest => dest.Id, act => act.Ignore());
+                cfg.CreateMap<SpentEntity, SpentEntity>().ForMember(dest => dest.Id, act => act.Ignore());
+                cfg.CreateMap<Product, Product>().ForMember(dest => dest.Id, act => act.Ignore());
+
+            });
+
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

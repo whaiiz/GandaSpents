@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models.Sql
 {
-    public class SpentEntityRepository : Repository, ISpentEntityRepository
+    public class SpentEntityRepository : Repository<SpentEntity>, ISpentEntityRepository
     {
         public SpentEntityRepository(AppDbContext appDbContext): base(appDbContext)
         {

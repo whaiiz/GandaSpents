@@ -10,7 +10,7 @@ namespace GandaSpents.Models
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-
+            
         }
 
 
@@ -40,7 +40,24 @@ namespace GandaSpents.Models
                 }
 
             );
+
+            bldr.Entity<SpentEntity>()
+                .HasData(new
+                {
+                    Id = 1,
+                    Name = "Continente"
+
+                },
+                new
+                {
+                    Id = 2,
+                    Name = "Dellman"
+                }
+          );
+        
         }
+
+
         public DbSet<Spent> Spents { get; set; }
         public DbSet<SpentEntity> SpentEntities { get; set; }
         public DbSet<Product> Products { get; set; }

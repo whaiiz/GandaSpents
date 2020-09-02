@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models.Sql
 {
-    public class ProductTypeRepository : Repository, IProductTypeRepository
+    public class ProductTypeRepository : Repository<ProductType>, IProductTypeRepository 
     {
 
         public ProductTypeRepository(AppDbContext appDbContext): base(appDbContext)

@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models.Repositories
 {
-    public abstract class Repository : IRepository
+    public abstract class Repository<M> : IRepository where M : Model
     {
         private readonly AppDbContext _dbContext;
-
+        private readonly DbSet<M> ola;
+        
         public Repository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -19,15 +20,23 @@ namespace GandaSpents.Models.Repositories
 
         public virtual void Create(Model model)
         {
-            GetModel().Add(model);
+            GetModel().Add((M)model);
             _dbContext.SaveChanges();
         }
 
         public virtual void Delete(int id)
         {
-            var model = GetById(id);
-            if (model != null) GetModel().Remove(model);
-            _dbContext.SaveChanges();
+
+            if(this is IProductTypeRepository)
+            {
+                var model = GetById(id);
+                if (model != null)
+                {
+                    GetModel().Remove((M)model);
+                    _dbContext.SaveChanges();
+                }
+            }
+
         }
 
         public virtual IEnumerable<Model> GetAll()
@@ -47,7 +56,8 @@ namespace GandaSpents.Models.Repositories
             _dbContext.SaveChanges();
         }
 
-        // pq nao db set de model
+
+        // pq nao db set de model, pq nao consegue converter o dbset model para dbsd
         private dynamic GetModel()
         {
             if (this is IProductTypeRepository) return _dbContext.ProductTypes;

@@ -13,14 +13,13 @@ namespace GandaSpents.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductTypeController : ApiController<ProductType>
+    public class SpentController : ApiController<Spent>
     {
-        private readonly IProductTypeRepository _productTypeRepository;
-
-        public ProductTypeController(IProductTypeRepository productTypeRepository, LinkGenerator linkGenerator, IMapper mapper) : base (productTypeRepository,linkGenerator,mapper)
+        private readonly SpentRepository _spentRepository;
+        
+        public SpentController(SpentRepository spentRepository, LinkGenerator linkGenerator, IMapper mapper): base(spentRepository,linkGenerator,mapper)
         {
-            _productTypeRepository = productTypeRepository;
+            _spentRepository = spentRepository;   
         }
-
     }
 }
