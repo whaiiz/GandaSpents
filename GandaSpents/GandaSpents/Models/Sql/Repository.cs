@@ -11,16 +11,17 @@ namespace GandaSpents.Models.Repositories
     public abstract class Repository<M> : IRepository where M : Model
     {
         private readonly AppDbContext _dbContext;
-        private readonly DbSet<M> ola;
+        private readonly DbSet<M> _models;
         
         public Repository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
+            _models = GetModel();
         }
-
+        
         public virtual void Create(Model model)
         {
-            GetModel().Add((M)model);
+            _models.Add((M)model);
             _dbContext.SaveChanges();
         }
 
@@ -32,7 +33,7 @@ namespace GandaSpents.Models.Repositories
                 var model = GetById(id);
                 if (model != null)
                 {
-                    GetModel().Remove((M)model);
+                    _models.Remove((M)model);
                     _dbContext.SaveChanges();
                 }
             }
@@ -41,17 +42,17 @@ namespace GandaSpents.Models.Repositories
 
         public virtual IEnumerable<Model> GetAll()
         {
-            return GetModel();
+            return _models;
         }
 
         public virtual Model GetById(int id)
         {
-            return GetAll().FirstOrDefault(m => m.Id == id);
+            return _models.FirstOrDefault(m => m.Id == id);
         }
 
         public virtual void Update(Model model)
         {
-            var entity = GetModel().Attach(model);
+            var entity = _models.Attach((M) model);
             entity.State = EntityState.Modified;
             _dbContext.SaveChanges();
         }
