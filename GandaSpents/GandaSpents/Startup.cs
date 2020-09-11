@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GandaSpents.Middlewares;
 using GandaSpents.Models;
 using GandaSpents.Models.Repositories;
 using GandaSpents.Models.Sql;
@@ -31,6 +32,7 @@ namespace GandaSpents
             services.AddControllersWithViews();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<ISpentEntityRepository, SpentEntityRepository>();
+            services.AddScoped<ISpentRepository, SpentRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
@@ -60,6 +62,8 @@ namespace GandaSpents
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
+            // app.UseMiddleware<FeatureSwitchingMiddleware>();
 
             app.UseRouting();
 

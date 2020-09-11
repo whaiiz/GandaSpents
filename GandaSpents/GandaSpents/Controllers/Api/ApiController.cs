@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using GandaSpents.Models;
 using GandaSpents.Models.Repositories;
-using GandaSpents.Models.Sql;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -17,57 +12,94 @@ namespace GandaSpents.Controllers.Api
     public abstract class ApiController<M> : ControllerBase where M : Model
     {
         private readonly IRepository _repository;
-        private readonly LinkGenerator _linkGenerator;
-        private readonly IMapper _mapper;
+        protected readonly LinkGenerator LinkGenerator;
+        protected readonly IMapper Mapper;
 
         public ApiController(IRepository repository, LinkGenerator linkGenerator, IMapper mapper)
         {
             _repository = repository;
-            _linkGenerator = linkGenerator;
-            _mapper = mapper;
+            LinkGenerator = linkGenerator;
+            Mapper = mapper;
         }
 
-        public IActionResult Get()
+        public virtual IActionResult Get()
         {
-            return Ok(_repository.GetAll());
+            try
+            {
+                return Ok(_repository.GetAll());
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something went wrong!");  
+            }
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        public virtual IActionResult GetById(int id)
         {
-            return Ok(_repository.GetById(id));
+            try
+            {
+                var model = _repository.GetById(id);
+                if (model == null) return BadRequest("Id doesn't exist");
+                return Ok(model);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
         }
 
         [HttpPost]
-        public IActionResult Create(M model)
+        public virtual IActionResult Create(M model)
         {
-            // if (productType.Name == null) return BadRequest("You need to send a name");
-            _repository.Create(model);
-            var url = _linkGenerator.GetPathByAction(HttpContext, "GetById", values: new { id = model.Id });
-            return Created(url, model);
+            try
+            {
+                _repository.Create(model);
+                var url = LinkGenerator.GetPathByAction(HttpContext, "GetById", values: new { id = model.Id });
+                return Created(url, model);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something went wrong!");
+            }
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Put(int id, M model)
+        public virtual IActionResult Put(int id, M model)
         {
-            M modelToFind = (M) _repository.GetById(id);
+            try
+            {
+                M modelToFind = (M)_repository.GetById(id);
 
-            if (modelToFind == null) return BadRequest("Id not found");
+                if (modelToFind == null) return BadRequest("Id not found");
 
-            modelToFind = _mapper.Map(model, modelToFind);
-           
-            _repository.Update(modelToFind);
-            return Ok();
+                modelToFind = Mapper.Map(model, modelToFind);
+
+                _repository.Update(modelToFind);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something went wrong!");
+            }
 
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
+        public virtual IActionResult Delete(int id)
         {
-            var model = _repository.GetById(id);
-            _repository.Delete(id);
-            if (model == null) return BadRequest("You need to send an id");
-            return Ok();
+            try
+            {
+                var model = _repository.GetById(id);
+                _repository.Delete(id);
+                if (model == null) return BadRequest("You need to send a valid id");
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something went wrong!");
+            }
 
         }
     }

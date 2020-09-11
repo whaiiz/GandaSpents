@@ -27,7 +27,6 @@ namespace GandaSpents.Models.Repositories
 
         public virtual void Delete(int id)
         {
-
             if(this is IProductTypeRepository)
             {
                 var model = GetById(id);
@@ -37,7 +36,6 @@ namespace GandaSpents.Models.Repositories
                     _dbContext.SaveChanges();
                 }
             }
-
         }
 
         public virtual IEnumerable<Model> GetAll()
@@ -57,8 +55,6 @@ namespace GandaSpents.Models.Repositories
             _dbContext.SaveChanges();
         }
 
-
-        // pq nao db set de model, pq nao consegue converter o dbset model para dbsd
         private dynamic GetModel()
         {
             if (this is IProductTypeRepository) return _dbContext.ProductTypes;
