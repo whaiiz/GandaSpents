@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -16,7 +18,7 @@ namespace GandaSpents.Models
 
         protected override void OnModelCreating(ModelBuilder bldr)
         {
-            bldr.Entity<ProductType>()
+            /* bldr.Entity<ProductType>()
                 .HasData(new
                 {
                     Id = 1,
@@ -53,8 +55,10 @@ namespace GandaSpents.Models
                     Id = 2,
                     Name = "Dellman"
                 }
-          );
-        
+            ); */
+
+           base.OnModelCreating(bldr);
+
         }
 
 
@@ -62,5 +66,7 @@ namespace GandaSpents.Models
         public DbSet<SpentEntity> SpentEntities { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+ 
+      
     }
 }

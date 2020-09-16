@@ -10,6 +10,7 @@ using GandaSpents.Models.Sql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ namespace GandaSpents
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<ISpentEntityRepository, SpentEntityRepository>();
             services.AddScoped<ISpentRepository, SpentRepository>();
@@ -50,6 +52,9 @@ namespace GandaSpents
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
 
+           
+            services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,16 +68,16 @@ namespace GandaSpents
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             
-            // app.UseMiddleware<FeatureSwitchingMiddleware>();
-
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            
+                endpoints.MapRazorPages();
+
             });
                        
         }
