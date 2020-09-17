@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GandaSpents.Controllers
 {
-    public class SpentsController : Controller
+    public class SpentController : Controller
     {
         public IActionResult Index()
         {
