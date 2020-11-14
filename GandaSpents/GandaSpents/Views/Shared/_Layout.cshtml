@@ -7,8 +7,11 @@
 
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation/additional-methods.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validate/additional-methods.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -30,10 +33,10 @@
                 <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Spents</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu1">
                     <li>
-                        <a href="#">View</a>
+                        <a asp-controller="Spent" asp-action="Index">View</a>
                     </li>
                     <li>
-                        <a href="#">Create</a>
+                        <a asp-controller="Spent" asp-action="CreateOrEdit">Create</a>
                     </li>
                 </ul>
             </li>
@@ -41,10 +44,10 @@
                 <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Spent Entities</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu2">
                     <li>
-                        <a href="#">View</a>
+                        <a asp-controller="SpentEntity" asp-action="Index">View</a>
                     </li>
                     <li>
-                        <a href="#">Create</a>
+                        <a asp-controller="SpentEntity" asp-action="CreateOrEdit">Create</a>
                     </li>
                 </ul>
             </li>
@@ -52,10 +55,10 @@
                 <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Product</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu3">
                     <li>
-                        <a href="#">View</a>
+                        <a asp-controller="Product" asp-action="Index">View</a>
                     </li>
                     <li>
-                        <a href="#">Create</a>
+                        <a asp-controller="Product" asp-action="CreateOrEdit">Create</a>
                     </li>
                 </ul>
             </li>
@@ -63,45 +66,33 @@
                 <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Product Types</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu4">
                     <li>
-                        <a href="#">View</a>
+                        <a asp-controller="ProductType" asp-action="Index">View</a>
                     </li>
                     <li>
-                        <a href="#">Create</a>
+                        <a asp-controller="ProductType" asp-action="CreateOrEdit">Create</a>
                     </li>
                 </ul>
             </li>
         </ul>
-
-        <!--  <ul class="list-unstyled CTAs">
-        <li>
-            <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-        </li>
-        <li>
-            <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-        </li>
-    </ul>  -->
-
+        <vc:spent-count> </vc:spent-count>
     </nav>
-        <!-- Page Content  -->
-        <div id="content">
+    <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-                    <partial name="_LoginPartial" />
-                </div>
-            </nav>
-            @RenderBody()
-        </div>
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+            </div>
+        </nav>
+        @RenderBody()
+    </div>
 </div>
-
 
 <script type="text/javascript">
     $(document).ready(function () {

@@ -7,5 +7,6 @@ namespace GandaSpents.Models.Repositories
 {
     public interface ISpentRepository : IRepository
     {
+        public IEnumerable<Spent> GetMonthSpents();
     }
 }

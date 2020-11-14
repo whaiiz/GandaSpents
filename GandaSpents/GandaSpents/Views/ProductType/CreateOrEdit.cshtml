@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model ProductType
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["message"]
+    </div>
 }
+
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Name" class="form-group">Product Type Name</label>
+        <input asp-for="@Model.Name" placeholder="Product Name" />
+        <input asp-for="@Model.Id" type="hidden" />
+        @if (Model.Id == 0)
+        {
+            <button asp-controller="ProductType" asp-action="NewProductType" class="btn btn-primary mb-2">Create</button>
+        }
+        else
+        {
+            <button asp-controller="ProductType" asp-action="EditProductType" class="btn btn-primary mb-2">Edit</button>
+        }
+
+        <button asp-controller="ProductType" asp-action="Index" class="btn btn-primary mb-2">Back</button> <br />
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+    </div>
+</form>
+

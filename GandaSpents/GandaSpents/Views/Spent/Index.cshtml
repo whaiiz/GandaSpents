@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Spent>
+
+<div>
+
+    @if (TempData["successMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["successMessage"]
+        </div>
+    }
+    <div class="spents">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Spent Entity</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var spent in Model)
+                {
+                    <tr>
+                        <td>@spent.Product.Name</td>
+                        <td>@spent.Amount</td>
+                        <td>@spent.Price</td>
+                        <td>@spent.SpentEntity.Name</td>
+                        <td>
+                            <form method="get">
+                                <input type="submit" asp-controller="Spent" asp-action="CreateOrEdit" asp-route-id=@spent.Id class="btn btn-primary" value="Edit" />
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post">
+                                <input type="submit" asp-controller="Spent" asp-action="Delete" asp-route-id=@spent.Id class="btn btn-danger" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+
+        async function fetchSpents() {
+
+            var api = 'https://localhost:44338/api/Spent';
+            const response = await fetch(api);
+            return response.json();
+
+        }
+
+        async function makeElements() {
+            var spents = await fetchSpents();
+            console.log(spents)
+            //spents.forEach((element) => $(".spents").append(buildCard(element)));
+        }
+
+
+    </script>
+
+
+</div>

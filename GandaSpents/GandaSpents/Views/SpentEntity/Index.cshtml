@@ -1,5 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model IEnumerable<SpentEntity>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
 }
+
+<div class="spent_entities">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Spent Entity Name</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var spentEntity in Model)
+            {
+                <tr>
+                    <td>@spentEntity.Name</td>
+                    <td>
+                        <form method="get">
+                            <input type="submit" asp-controller="SpentEntity" asp-action="CreateOrEdit" asp-route-id=@spentEntity.Id class="btn btn-primary" value="Edit" />
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <input type="submit" asp-controller="SpentEntity" asp-action="Delete" asp-route-id=@spentEntity.Id class="btn btn-danger" value="Delete" />
+                        </form>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+

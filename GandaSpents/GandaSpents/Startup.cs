@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GandaSpents.Middlewares;
 using GandaSpents.Models;
 using GandaSpents.Models.Repositories;
 using GandaSpents.Models.Sql;
@@ -51,9 +50,15 @@ namespace GandaSpents
 
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
+            services.AddSignalR();
 
-           
             services.AddRazorPages();
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "470635064401-oj4r0ucrcndgg1hqopp6311j3np99dsm.apps.googleusercontent.com";
+                    options.ClientSecret = "EijhA6eisudHAVVMCxAVgLQL";
+                });
 
         }
 
@@ -67,10 +72,11 @@ namespace GandaSpents
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

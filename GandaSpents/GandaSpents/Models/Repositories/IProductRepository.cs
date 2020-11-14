@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models.Repositories
 {
-    public interface IProductRepository : IRepository
+    public interface IProductRepository
     {
     }
 }

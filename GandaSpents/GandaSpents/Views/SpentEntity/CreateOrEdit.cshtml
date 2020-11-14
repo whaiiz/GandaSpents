@@ -1,5 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model SpentEntity
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["message"]
+    </div>
 }
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Name" class="required">Name</label>
+        <input asp-for="@Model.Name" placeholder="Spent entity name" />
+        <input asp-for="@Model.Id" type="hidden" />
+
+
+        @if (Model.Id == 0)
+        {
+            <input type="submit" value="Create" asp-controller="SpentEntity" asp-action="NewSpentEntity" class="btn btn-primary" />
+        }
+        else
+        {
+            <input type="submit" value="Edit" asp-controller="SpentEntity" asp-action="EditSpentEntity" class="btn btn-primary" />
+        }
+
+        <button class="btn btn-primary">Back</button> <br />
+
+34
+
+    </div>
+</form>

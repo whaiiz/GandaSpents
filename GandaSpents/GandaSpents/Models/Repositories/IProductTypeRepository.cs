@@ -8,7 +8,7 @@ namespace GandaSpents.Models
 {
     public interface IProductTypeRepository : IRepository
     {
-
+        public Boolean AlreadyExists(string name);
 
     }
 }

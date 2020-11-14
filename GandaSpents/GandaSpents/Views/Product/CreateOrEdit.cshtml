@@ -1,5 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model ProductViewModel
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Product.Name" class="form-group">Product name</label>
+        <input asp-for="@Model.Product.Name" class="form-control" placeholder="Product name" /> <br />
+        <label asp-for="@Model.Product.ProductTypeId" class="form-group">Product Type</label>
+        <select asp-for="@Model.Product.ProductTypeId" class="form-control">
+            @foreach (var productType in Model.ProductTypes)
+            {
+                <option value=@productType.Id>@productType.Id - @productType.Name</option>
+            }
+        </select>
+
+        <br />
+        <input asp-for="@Model.Product.Id" type="hidden" />
+
+        @if (Model.Product.Id == 0)
+        {
+            <button asp-controller="Product" asp-action="NewProduct" class="btn btn-primary mb-2">Create</button>
+        }
+        else
+        {
+            <button asp-controller="Product" asp-action="EditProduct" class="btn btn-primary mb-2">Edit</button>
+        }
+
+        <button asp-controller="Product" asp-action="Index" class="btn btn-primary mb-2">Back</button>
+        <br />
+        <span asp-validation-for="@Model.Product.Name" class="text-danger"></span>
+    </div>
+</form>

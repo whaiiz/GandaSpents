@@ -12,5 +12,11 @@ namespace GandaSpents.Models.Sql
         {
 
         }
+
+        public bool AlreadyExists(string name)
+        {
+            if (_dbContext.SpentEntities.FirstOrDefault(p => p.Name == name) == null) return false;
+            return true;
+        }
     }
 }

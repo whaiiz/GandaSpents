@@ -1,5 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model ProductTypeViewModel
+
+<div>
+
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["message"]
+        </div>
+    }
+    <div class="product_types">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Product Type Name</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var productType in Model.ProductTypes)
+                {
+                    <tr>
+                        <td>@productType.Name</td>
+                        <td>
+                            <form method="get">
+                                <input type="submit" asp-controller="ProductType" asp-action="CreateOrEdit" asp-route-id=@productType.Id class="btn btn-primary" value="Edit" />
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post">
+                                <input type="submit" asp-controller="ProductType" asp-action="Delete" asp-route-id=@productType.Id class="btn btn-danger" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</div>

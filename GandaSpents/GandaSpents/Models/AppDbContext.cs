@@ -18,27 +18,33 @@ namespace GandaSpents.Models
 
         protected override void OnModelCreating(ModelBuilder bldr)
         {
-            /* bldr.Entity<ProductType>()
+            /* DateTime DT = new DateTime(2015, 06, 27);
+
+            bldr.Entity<ProductType>()
                 .HasData(new
                 {
                     Id = 1,
-                    Name = "Bebida e comida"
+                    Name = "Bebida e comida",
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
 
                 },
                 new
                 {
                     Id = 2,
-                    Name = "Restauração"
+                    Name = "Restauração",
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
                 },
                 new
                 {
                     Id = 3,
-                    Name = "Tecnologia"
+                    Name = "Tecnologia",
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
                 },
                 new
                 {
                     Id = 4,
-                    Name = "Renda"
+                    Name = "Renda",
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
                 }
 
             );
@@ -47,17 +53,45 @@ namespace GandaSpents.Models
                 .HasData(new
                 {
                     Id = 1,
-                    Name = "Continente"
+                    Name = "Continente",
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
 
                 },
                 new
                 {
                     Id = 2,
-                    Name = "Dellman"
+                    Name = "Dellman",
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
                 }
-            ); */
+            );
 
-           base.OnModelCreating(bldr);
+            bldr.Entity<Product>()
+                .HasData(new
+                {
+                    Id = 1,
+                    name = "Frango",
+                    ProductTypeId = 1,
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
+
+                }
+            );
+
+            bldr.Entity<Spent>()
+                .HasData(new
+                {
+                    Id = 1,
+                    Amount = 2,
+                    Price =  3.3d,
+                    ProductId = 1,
+                    SpentEntityId = 1,
+                    Date = DT,
+                    UserId = "afc72ea6-58c4-48c2-9658-c0bc021e8f37"
+
+                }
+            );
+
+            */ 
+            base.OnModelCreating(bldr);
 
         }
 

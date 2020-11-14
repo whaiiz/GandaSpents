@@ -7,5 +7,6 @@ namespace GandaSpents.Models.Repositories
 {
     public interface ISpentEntityRepository : IRepository
     {
+        public Boolean AlreadyExists(string name);
     }
 }

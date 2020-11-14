@@ -14,6 +14,16 @@ namespace GandaSpents.Models.Sql
         {
             
         }
-   
+
+        public override IEnumerable<Model> GetAll()
+        {
+            return _dbContext.ProductTypes;
+        }
+
+        public bool AlreadyExists(string name)
+        {
+            if (_dbContext.ProductTypes.FirstOrDefault(p => p.Name == name) == null) return false;
+            return true;
+        }
     }
 }
