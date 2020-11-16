@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models
 {
-    public class Spent : Model
+    public class Spent
     {
-        public int SpentEntityId { get; set; }
+        public string Id { get; set; }
+        public string SpentEntityId { get; set; }
         public SpentEntity SpentEntity { get; set; }
         [Required]
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
         public Product Product { get; set; }
         [Required]
         // [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]

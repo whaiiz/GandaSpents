@@ -26,35 +26,35 @@ namespace GandaSpents.Controllers
             return View(products);
         }
 
-        public IActionResult CreateOrEdit(int id)
+        public async Task<IActionResult> CreateOrEdit(string id)
         {
-            var product = _productRepository.GetById(id);
+            var product = await _productRepository.GetByIdAsync(id);
 
             if(product == null) product = new Product();
             
-            ProductViewModel productViewModel = new ProductViewModel()
+            var productViewModel = new ProductViewModel()
             {
-                Product = (Product)product,
-                ProductTypes = (IEnumerable<ProductType>)_productTypeRepository.GetAll()
+                Product = product,
+                ProductTypes = _productTypeRepository.GetAll()
             };
 
             return View(productViewModel);
         }
 
-        public IActionResult NewProduct(Product product)
+        public async Task<IActionResult> NewProduct(Product product)
         {
             if (!ModelState.IsValid)
             {
-                ProductViewModel productViewModel = new ProductViewModel()
+                var productViewModel = new ProductViewModel()
                 {
                     Product = product,
-                    ProductTypes = (IEnumerable<ProductType>)_productTypeRepository.GetAll()
+                    ProductTypes = _productTypeRepository.GetAll()
                 };
 
                 return RedirectToAction("CreateOrEdit", new {ProductViewModel = productViewModel});
             }
 
-            _productRepository.Create(product);
+            await _productRepository.CreateAsync(product);
             TempData["message"] = "Product created with success";
 
             return RedirectToAction("Index");
@@ -68,7 +68,7 @@ namespace GandaSpents.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             _productRepository.Delete(id);
             TempData["message"] = "Product deleted!";

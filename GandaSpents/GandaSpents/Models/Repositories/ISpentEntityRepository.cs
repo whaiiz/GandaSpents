@@ -5,8 +5,14 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models.Repositories
 {
-    public interface ISpentEntityRepository : IRepository
+    public interface ISpentEntityRepository
     {
-        public Boolean AlreadyExists(string name);
+        Task CreateAsync(SpentEntity spentEntity);
+        Task DeleteAsync(string id);
+        void Update(SpentEntity spentEntity);
+        IEnumerable<SpentEntity> GetAll();
+        Task<SpentEntity> GetByIdAsync(string id);
+        Task SaveChangesAsync();
+        Task<bool> AlreadyExistsAsync(string name);
     }
 }

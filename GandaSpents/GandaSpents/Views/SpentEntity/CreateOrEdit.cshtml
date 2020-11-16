@@ -11,10 +11,8 @@
     <div class="form-group">
         <label asp-for="@Model.Name" class="required">Name</label>
         <input asp-for="@Model.Name" placeholder="Spent entity name" />
-        <input asp-for="@Model.Id" type="hidden" />
 
-
-        @if (Model.Id == 0)
+        @if (Model.Id == null)
         {
             <input type="submit" value="Create" asp-controller="SpentEntity" asp-action="NewSpentEntity" class="btn btn-primary" />
         }
@@ -24,8 +22,5 @@
         }
 
         <button class="btn btn-primary">Back</button> <br />
-
-34
-
     </div>
 </form>

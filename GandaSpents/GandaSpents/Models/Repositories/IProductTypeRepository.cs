@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models
 {
-    public interface IProductTypeRepository : IRepository
+    public interface IProductTypeRepository
     {
-        public Boolean AlreadyExists(string name);
+        Task CreateAsync(ProductType productType);
+        Task DeleteAsync(string id);
+        void Update(ProductType productType);
+        IEnumerable<ProductType> GetAll();
+        Task<ProductType> GetByIdAsync(string id);
+        Task SaveChangesAsync();
+        Task<bool> AlreadyExistsAsync(string name);
 
     }
 }

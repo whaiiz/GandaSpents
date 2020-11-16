@@ -36,7 +36,7 @@
         <input asp-for="@Model.Spent.Description" class="form-control" placeholder="Description">  <br />
 
 
-        @if (Model.Spent.Id == 0)
+        @if (Model.Spent.Id == null)
         {
             <button asp-controller="spent" asp-action="NewSpent" class="btn btn-primary mb-2">Create</button>
         }

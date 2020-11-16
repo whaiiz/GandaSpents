@@ -21,17 +21,17 @@ namespace GandaSpents.Controllers
 
         public IActionResult Index()
         {
-            ProductTypeViewModel productTypeViewModel = new ProductTypeViewModel()
+            var productTypeViewModel = new ProductTypeViewModel()
             {
-                ProductTypes = (IEnumerable<ProductType>)_productTypeRepository.GetAll()
+                ProductTypes = _productTypeRepository.GetAll()
             };
 
             return View(productTypeViewModel);
         }
 
-        public IActionResult CreateOrEdit(int id)
+        public async Task<IActionResult> CreateOrEdit(string id)
         {
-            var productType = (ProductType)_productTypeRepository.GetById(id);
+            var productType = await _productTypeRepository.GetByIdAsync(id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (productType == null)
@@ -45,36 +45,39 @@ namespace GandaSpents.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewProductType(ProductType productType)
+        public async Task<IActionResult> NewProductType(ProductType productType)
         {
-            if (_productTypeRepository.AlreadyExists(productType.Name))
+            if (await _productTypeRepository.AlreadyExistsAsync(productType.Name))
             {
                 TempData["message"] = "Product Type with that name already exists!";
-                return RedirectToAction("CreateOrEdit",  new { productType = productType });
+                return RedirectToAction("CreateOrEdit",  new { productType });
             }
 
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("CreateOrEdit", new { productType = productType });
+                return RedirectToAction("CreateOrEdit", new { productType });
             }
 
             productType.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _productTypeRepository.Create(productType);
+            productType.Id = Guid.NewGuid().ToString();
+            await _productTypeRepository.CreateAsync(productType);
+            await _productTypeRepository.SaveChangesAsync();
             TempData["message"] = "Product Type created!";
             return RedirectToAction("Index");
         }
 
-        public IActionResult EditProductType(ProductType productType)
+        public async Task<IActionResult> EditProductType(ProductType productType)
         {
             _productTypeRepository.Update(productType);
+            await _productTypeRepository.SaveChangesAsync();
             TempData["message"] = "Product was edited with success!";
-
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            _productTypeRepository.Delete(id);
+            await _productTypeRepository.DeleteAsync(id);
+            await _productTypeRepository.SaveChangesAsync();
             TempData["message"] = "Product type deleted!";
             return RedirectToAction("Index");
         }

@@ -19,7 +19,7 @@ namespace GandaSpents.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            IEnumerable<Spent> spents = _spentRepository.GetMonthSpents();
+            var spents = _spentRepository.GetMonthSpents();
             double moneySpent = 0;
 
             foreach(var spent in spents)

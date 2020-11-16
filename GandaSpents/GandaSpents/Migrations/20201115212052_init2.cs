@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GandaSpents.Migrations
 {
-    public partial class initial_create : Migration
+    public partial class init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -156,8 +156,7 @@ namespace GandaSpents.Migrations
                 name: "ProductTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -176,8 +175,7 @@ namespace GandaSpents.Migrations
                 name: "SpentEntities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -196,11 +194,10 @@ namespace GandaSpents.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    ProductTypeId = table.Column<int>(nullable: false),
+                    ProductTypeId = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -211,7 +208,7 @@ namespace GandaSpents.Migrations
                         column: x => x.ProductTypeId,
                         principalTable: "ProductTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -224,13 +221,13 @@ namespace GandaSpents.Migrations
                 name: "Spents",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SpentEntityId = table.Column<int>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false),
-                    Amount = table.Column<int>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
+                    SpentEntityId = table.Column<string>(nullable: true),
+                    ProductId = table.Column<string>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -247,7 +244,7 @@ namespace GandaSpents.Migrations
                         column: x => x.SpentEntityId,
                         principalTable: "SpentEntities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Spents_AspNetUsers_UserId",
                         column: x => x.UserId,

@@ -15,7 +15,7 @@
         <br />
         <input asp-for="@Model.Product.Id" type="hidden" />
 
-        @if (Model.Product.Id == 0)
+        @if (Model.Product.Id == "")
         {
             <button asp-controller="Product" asp-action="NewProduct" class="btn btn-primary mb-2">Create</button>
         }

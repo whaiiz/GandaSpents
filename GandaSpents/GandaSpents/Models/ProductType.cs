@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models
 {
-    public class ProductType : Model
+    public class ProductType
     {
+        public string Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string UserId { get; set; }

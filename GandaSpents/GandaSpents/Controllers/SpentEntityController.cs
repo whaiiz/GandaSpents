@@ -23,9 +23,9 @@ namespace GandaSpents.Controllers
             return View(spentEntities);
         }
 
-        public IActionResult CreateOrEdit(int id)
+        public async Task<IActionResult> CreateOrEdit(string id)
         {
-            var spentEntity = _spentEntityRepository.GetById(id);
+            var spentEntity = await _spentEntityRepository.GetByIdAsync(id);
 
             if(spentEntity == null)
             {
@@ -35,27 +35,27 @@ namespace GandaSpents.Controllers
             return View(spentEntity);
         }
 
-        public IActionResult NewSpentEntity(SpentEntity spentEntity)
+        public async Task<IActionResult> NewSpentEntity(SpentEntity spentEntity)
         {
-            if (_spentEntityRepository.AlreadyExists(spentEntity.Name))
+            if (await _spentEntityRepository.AlreadyExistsAsync(spentEntity.Name))
             {
                 TempData["message"] = "This name already exist please choose another!";
                 return RedirectToAction("CreateOrEdit");
             }
 
-            /*    if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return RedirectToAction("CreateOrEdit", new {SpentEntity = spentEntity});
-            } */
+            } 
 
-            _spentEntityRepository.Create(spentEntity);
+            await _spentEntityRepository.CreateAsync(spentEntity);
             TempData["message"] = "Spent Entity created!";
             return RedirectToAction("Index");
         }
 
-        public IActionResult EditSpentEntity(SpentEntity spentEntity)
+        public async Task<IActionResult> EditSpentEntity(SpentEntity spentEntity)
         {
-            if (_spentEntityRepository.AlreadyExists(spentEntity.Name))
+            if (await _spentEntityRepository.AlreadyExistsAsync(spentEntity.Name))
             {
                 TempData["message"] = "This name already exist please choose another!";
                 return RedirectToAction("CreateOrEdit");
@@ -66,7 +66,7 @@ namespace GandaSpents.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             _spentEntityRepository.Delete(id);
             TempData["message"] = "Spent Entity Deleted";

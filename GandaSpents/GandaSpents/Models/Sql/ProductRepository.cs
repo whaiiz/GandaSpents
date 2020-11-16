@@ -9,40 +9,46 @@ namespace GandaSpents.Models.Sql
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly AppDbContext _context;
-        public ProductRepository(AppDbContext appDbContext)
+        private readonly AppDbContext _dbContext;
+        public ProductRepository(AppDbContext dbContext)
         {
-            _context = appDbContext;
+            _dbContext = dbContext;
         }
 
-        public async Task Create(Product product)
+        public async Task CreateAsync(Product product)
         {
-            await _context.AddAsync(product);          
+            await _dbContext.Products.AddAsync(product);          
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(string id)
         {
-            var product = await GetById(id);
+            var product = await GetByIdAsync(id);
             if (product != null)
             {
-                _context.Products.Remove(product);
+                _dbContext.Products.Remove(product);
             }
         }
 
-        public IEnumerable<Model> GetAll()
+        public void Update(Product product)
         {
-            return _context.Products;
-        }
-
-        public async Task<Product> GetById(int id)
-        {
-            return await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
-        }
-
-        public virtual void Update(Product product)
-        {
-            var entity = _context.Products.Attach(product);
+            var entity = _dbContext.Products.Attach(product);
             entity.State = EntityState.Modified;
         }
+
+        public IEnumerable<Product> GetAll()
+        {
+            return _dbContext.Products;
+        }
+
+        public async Task<Product> GetByIdAsync(string id)
+        {
+            return await _dbContext.Products.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+
     }
 }

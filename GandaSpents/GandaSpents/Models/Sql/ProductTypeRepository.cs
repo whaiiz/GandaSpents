@@ -7,22 +7,53 @@ using System.Threading.Tasks;
 
 namespace GandaSpents.Models.Sql
 {
-    public class ProductTypeRepository : Repository<ProductType>, IProductTypeRepository 
+    public class ProductTypeRepository : IProductTypeRepository 
     {
+        private readonly AppDbContext _dbContext; 
 
-        public ProductTypeRepository(AppDbContext appDbContext): base(appDbContext)
+        public ProductTypeRepository(AppDbContext dbContext)
         {
-            
+            _dbContext = dbContext;
         }
 
-        public override IEnumerable<Model> GetAll()
+        public async Task CreateAsync(ProductType productType)
+        {
+            await _dbContext.ProductTypes.AddAsync(productType);
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            var productType = await GetByIdAsync(id);
+            if (productType != null)
+            {
+                _dbContext.ProductTypes.Remove(productType);
+            }
+        }
+
+        public void Update(ProductType productType)
+        {
+            var entity = _dbContext.ProductTypes.Attach(productType);
+            entity.State = EntityState.Modified;
+        }
+
+        public IEnumerable<ProductType> GetAll()
         {
             return _dbContext.ProductTypes;
         }
 
-        public bool AlreadyExists(string name)
+        public async Task<ProductType> GetByIdAsync(string id)
         {
-            if (_dbContext.ProductTypes.FirstOrDefault(p => p.Name == name) == null) return false;
+            return await _dbContext.ProductTypes.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> AlreadyExistsAsync(string name)
+        {
+            if (await _dbContext.ProductTypes.FirstOrDefaultAsync(p => p.Name == name) == null) return false;
             return true;
         }
     }

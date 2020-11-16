@@ -30,20 +30,21 @@ namespace GandaSpents.Controllers
             return View(spentList);
         }
 
-        public IActionResult CreateOrEdit(int id)
+        public async Task<IActionResult> CreateOrEdit(string id)
         {      
-            SpentViewModel spentViewModel = new SpentViewModel
+            var spentViewModel = new SpentViewModel
             {
-                SpentEntities = (IEnumerable<SpentEntity>)_spentEntityRepository.GetAll(),
-                Products = (IEnumerable<Product>)_productRepository.GetAll()
+                SpentEntities = _spentEntityRepository.GetAll(),
+                Products = _productRepository.GetAll()
             };
 
-            var spent = _spentRepository.GetById(id);
+            var spent = await _spentRepository.GetByIdAsync(id);
 
             if (spent != null) {
-                spentViewModel.Spent = (Spent)spent;
+                spentViewModel.Spent = spent;
             }
-            else {
+            else 
+            {
                 spentViewModel.Spent = new Spent()
                 {
                     Amount = 1,
@@ -55,12 +56,12 @@ namespace GandaSpents.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewSpent(Spent spent)  
+        public async Task<IActionResult> NewSpent(Spent spent)  
         {
             spent.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (ModelState.IsValid) {
-                _spentRepository.Create(spent);
+                await _spentRepository.CreateAsync(spent);
                 TempData["successMessage"] = "Spent Created!";
                 return RedirectToAction("Index");
             }
@@ -69,7 +70,7 @@ namespace GandaSpents.Controllers
 
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             _spentRepository.Delete(id);
             TempData["successMessage"] = "Spent Deleted!";

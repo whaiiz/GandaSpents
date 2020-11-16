@@ -13,7 +13,7 @@
         <label asp-for="@Model.Name" class="form-group">Product Type Name</label>
         <input asp-for="@Model.Name" placeholder="Product Name" />
         <input asp-for="@Model.Id" type="hidden" />
-        @if (Model.Id == 0)
+        @if (Model.Id == null)
         {
             <button asp-controller="ProductType" asp-action="NewProductType" class="btn btn-primary mb-2">Create</button>
         }
